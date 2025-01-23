@@ -1,4 +1,4 @@
-//ACTUAL PRACTISEE
+//ACTUAL EXERCISE
 
 import { useEffect, useRef, useState } from "react";
 import {
@@ -18,10 +18,11 @@ import { recordSpeech } from "@/functions/recordSpeech";
 import useWebFocus from "@/hooks/useWebFocus";
 import { VoiceAssets } from "../assets/samples/allSamples";
 import { ImagesAssets } from "../assets/images/allImages";
+import Lay from '../../../Say66_App/app/(tabs)/_layout';
 
 // Import thumbs up and thumbs down images
-const thumbsUpImage = ImagesAssets.like; // Modify with your actual path
-const thumbsDownImage = ImagesAssets.dislike; // Modify with your actual path
+const thumbsUpImage =  ImagesAssets.like;  // Modify with your actual path
+const thumbsDownImage = ImagesAssets.dislike;// Modify with your actual path
 
 // Recording Section Component
 const RecordingSection = ({
@@ -32,13 +33,14 @@ const RecordingSection = ({
   playRecording,
   playSampleFile,
   word,
-  feedbackImage, // Correct prop name
+  feedbackImage, // Now passing the feedback image
   showTryAgain,
-  onTryAgain,
+  onTryAgain
 }: any) => (
   <View style={styles.topHalf}>
     <View style={styles.buttonGroup}>
       <Text style={[styles.wordText, { color: "brown" }]}>Say: {word}</Text>
+      <Image source={ImagesAssets.rabbit} style={styles.rabbitImage} />
 
       <View style={styles.microphoneContainer}>
         <TouchableOpacity
@@ -107,30 +109,19 @@ const FeedbackSection = ({ feedbackImage, showTryAgain, onTryAgain }: any) => (
 );
 
 export default function ExerciseScreen() {
-  // Ray state and logic
-  const [transcribedSpeechRay, setTranscribedSpeechRay] = useState("");
-  const [isRecordingRay, setIsRecordingRay] = useState(false);
-  const [isTranscribingRay, setIsTranscribingRay] = useState(false);
-  const [RayFeedback, setRayFeedback] = useState("");
-  const [showTryAgainRay, setShowTryAgainRay] = useState(false);
-  const [recordedURIRay, setRecordedURIRay] = useState<string>("");
-  const [feedbackImageRay, setFeedbackImageRay] = useState<any>(null); // Added state for feedback image
+  // Rabbit state and logic
+  const [transcribedSpeechRabbit, setTranscribedSpeechRabbit] = useState("");
+  const [isRecordingRabbit, setIsRecordingRabbit] = useState(false);
+  const [isTranscribingRabbit, setIsTranscribingRabbit] = useState(false);
+  const [RabbitFeedback, setRabbitFeedback] = useState("");
+  const [showTryAgainRabbit, setShowTryAgainRabbit] = useState(false);
+  const [recordedURIRabbit, setRecordedURIRabbit] = useState<string>("");
+  const [feedbackImage, setFeedbackImage] = useState<any>(null); // Added state for feedback image
 
-  // Lay state and logic
-  const [transcribedSpeechLay, setTranscribedSpeechLay] = useState("");
-  const [isRecordingLay, setIsRecordingLay] = useState(false);
-  const [isTranscribingLay, setIsTranscribingLay] = useState(false);
-  const [LayFeedback, setLayFeedback] = useState("");
-  const [showTryAgainLay, setShowTryAgainLay] = useState(false);
-  const [recordedURILay, setRecordedURILay] = useState<string>("");
-  const [feedbackImageLay, setFeedbackImageLay] = useState<any>(null); // Added state for feedback image
-
-  const Ray = require("../assets/samples/ray.wav");
-  const Lay = require("../assets/samples/lay.wav");
+  const Rabbit = require("../assets/samples/rabbit.wav");
 
   const isWebFocused = useWebFocus();
-  const audioRecordingRefRay = useRef<Audio.Recording>(new Audio.Recording());
-  const audioRecordingRefLay = useRef<Audio.Recording>(new Audio.Recording());
+  const audioRecordingRefRabbit = useRef<Audio.Recording>(new Audio.Recording());
   const webAudioPermissionsRef = useRef<MediaStream | null>(null);
   const { height } = useWindowDimensions();
 
@@ -153,54 +144,54 @@ export default function ExerciseScreen() {
     }
   }, [isWebFocused]);
 
-  // Start and stop recording functions for Ray and Lay
-  const startRecordingRay = async () => {
-    setIsRecordingRay(true);
-    await recordSpeech(audioRecordingRefRay, setIsRecordingRay, !!webAudioPermissionsRef.current);
+  // Start and stop recording functions for Rabbit
+  const startRecordingRabbit = async () => {
+    setIsRecordingRabbit(true);
+    await recordSpeech(audioRecordingRefRabbit, setIsRecordingRabbit, !!webAudioPermissionsRef.current);
   };
 
-  const stopRecordingRay = async () => {
-    setIsRecordingRay(false);
+  const stopRecordingRabbit = async () => {
+    setIsRecordingRabbit(false);
     try {
-      setIsTranscribingRay(true);
-      const { transcript, recordingUri } = await transcribeSpeech(audioRecordingRefRay);
-      setTranscribedSpeechRay(transcript || "");
-      setRecordedURIRay(recordingUri || "");
-      console.log("transcribed ray attempt", transcript);
+      setIsTranscribingRabbit(true);
+      const { transcript, recordingUri } = await transcribeSpeech(audioRecordingRefRabbit);
+      setTranscribedSpeechRabbit(transcript || "");
+      setRecordedURIRabbit(recordingUri || "");
+      console.log("transcribed Rabbit attempt", transcript);
 
-      if (transcript && transcript.toLowerCase().trim() === "ray") {
-        setRayFeedback("Correct!");
-        setShowTryAgainRay(false); // Hide "Try Again" button if correct
-        setFeedbackImageRay(thumbsUpImage); // Show thumbs up image
+      if (transcript && transcript.toLowerCase().trim() === "rabbit") {
+        setRabbitFeedback("Correct!");
+        setShowTryAgainRabbit(false); // Hide "Try Again" button if correct
+        setFeedbackImage(thumbsUpImage); // Show thumbs up image
       } else {
-        setRayFeedback("Incorrect, try again.");
-        setShowTryAgainRay(true); // Show "Try Again" button if incorrect
-        setFeedbackImageRay(thumbsDownImage); // Show thumbs down image
+        setRabbitFeedback("Incorrect, try again.");
+        setShowTryAgainRabbit(true); // Show "Try Again" button if incorrect
+        setFeedbackImage(thumbsDownImage); // Show thumbs down image
       }
     } catch (e) {
       console.error(e);
     } finally {
-      setIsTranscribingRay(false);
+      setIsTranscribingRabbit(false);
     }
   };
 
-  const playRecordingRay = async () => {
-    if (!recordedURIRay) {
+  const playRecordingRabbit = async () => {
+    if (!recordedURIRabbit) {
       console.error("No recording found!");
       return;
     }
 
     try {
-      const { sound } = await Audio.Sound.createAsync({ uri: recordedURIRay });
+      const { sound } = await Audio.Sound.createAsync({ uri: recordedURIRabbit });
       await sound.playAsync();
     } catch (error) {
-      console.error("Error playing the recording Ray:", error);
+      console.error("Error playing the recording Rabbit:", error);
     }
   };
 
-  const playSampleFileRay = async () => {
+  const playSampleFileRabbit = async () => {
     try {
-      const { sound } = await Audio.Sound.createAsync(Ray);
+      const { sound } = await Audio.Sound.createAsync(Rabbit);
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
@@ -208,66 +199,7 @@ export default function ExerciseScreen() {
       });
       await sound.playAsync();
     } catch (error) {
-      console.error("Error playing the sample file Ray:", error);
-    }
-  };
-
-  // Start and stop recording functions for Lay
-  const startRecordingLay = async () => {
-    setIsRecordingLay(true);
-    await recordSpeech(audioRecordingRefLay, setIsRecordingLay, !!webAudioPermissionsRef.current);
-  };
-
-  const stopRecordingLay = async () => {
-    setIsRecordingLay(false);
-    try {
-      setIsTranscribingLay(true);
-      const { transcript, recordingUri } = await transcribeSpeech(audioRecordingRefLay);
-      setTranscribedSpeechLay(transcript || "");
-      setRecordedURILay(recordingUri || "");
-      console.log("transcribed lay attempt", transcript);
-
-      if (transcript && transcript.toLowerCase().trim() === "lay") {
-        setLayFeedback("Correct!");
-        setShowTryAgainLay(false); // Hide "Try Again" button if correct
-        setFeedbackImageLay(thumbsUpImage); // Show thumbs up image
-      } else {
-        setLayFeedback("Incorrect, try again.");
-        setShowTryAgainLay(true); // Show "Try Again" button if incorrect
-        setFeedbackImageLay(thumbsDownImage); // Show thumbs down image
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsTranscribingLay(false);
-    }
-  };
-
-  const playRecordingLay = async () => {
-    if (!recordedURILay) {
-      console.error("No recording found!");
-      return;
-    }
-
-    try {
-      const { sound } = await Audio.Sound.createAsync({ uri: recordedURILay });
-      await sound.playAsync();
-    } catch (error) {
-      console.error("Error playing the recording Lay:", error);
-    }
-  };
-
-  const playSampleFileLay = async () => {
-    try {
-      const { sound } = await Audio.Sound.createAsync(Lay);
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-        staysActiveInBackground: true,
-      });
-      await sound.playAsync();
-    } catch (error) {
-      console.error("Error playing the sample file Lay:", error);
+      console.error("Error playing the sample file Rabbit:", error);
     }
   };
 
@@ -275,39 +207,22 @@ export default function ExerciseScreen() {
     <SafeAreaView style={styles.container}>
       <View style={[styles.mainInnerContainer, { height }]}>
         <View style={styles.border}>
-          <Text style={[styles.titleText, { color: "purple" }]}>Have a go!</Text>
+          <Text style={[styles.titleText, { color: "purple" }]}>Try this word!</Text>
 
           <RecordingSection
-            word="Ray"
-            isRecording={isRecordingRay}
-            isTranscribing={isTranscribingRay}
-            startRecording={startRecordingRay}
-            stopRecording={stopRecordingRay}
-            playRecording={playRecordingRay}
-            playSampleFile={playSampleFileRay}
-            feedbackImage={feedbackImageRay} // Ensure correct prop
-            showTryAgain={showTryAgainRay}
+            word="Rabbit"
+            isRecording={isRecordingRabbit}
+            isTranscribing={isTranscribingRabbit}
+            startRecording={startRecordingRabbit}
+            stopRecording={stopRecordingRabbit}
+            playRecording={playRecordingRabbit}
+            playSampleFile={playSampleFileRabbit}
+            feedbackImage={feedbackImage} // Passing the feedback image
+            showTryAgain={showTryAgainRabbit}
             onTryAgain={() => {
-              setRayFeedback("");
-              setShowTryAgainRay(false);
-              setFeedbackImageRay(null); // Reset the image
-            }}
-          />
-
-          <RecordingSection
-            word="Lay"
-            isRecording={isRecordingLay}
-            isTranscribing={isTranscribingLay}
-            startRecording={startRecordingLay}
-            stopRecording={stopRecordingLay}
-            playRecording={playRecordingLay}
-            playSampleFile={playSampleFileLay}
-            feedbackImage={feedbackImageLay} // Ensure correct prop
-            showTryAgain={showTryAgainLay}
-            onTryAgain={() => {
-              setLayFeedback("");
-              setShowTryAgainLay(false);
-              setFeedbackImageLay(null); // Reset the image
+              setRabbitFeedback("");
+              setShowTryAgainRabbit(false);
+              setFeedbackImage(null); // Reset the image
             }}
           />
         </View>
@@ -431,5 +346,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  rabbitImage: {
+    width: 150,
+    height: 150,
+    alignSelf: "center",
+    marginVertical: 10,
   },
 });
