@@ -6,6 +6,10 @@ in client: run $npx expo start
 
 in Say66: run $npm start
 
+
+Run these commands if some exports are missing:
+
+
 npm init -y
 
 npm i express dotenv
