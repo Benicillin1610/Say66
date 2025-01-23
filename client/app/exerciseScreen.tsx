@@ -18,7 +18,7 @@ import { recordSpeech } from "@/functions/recordSpeech";
 import useWebFocus from "@/hooks/useWebFocus";
 import { VoiceAssets } from "../assets/samples/allSamples";
 import { ImagesAssets } from "../assets/images/allImages";
-import Lay from '../../../Say66_App/app/(tabs)/_layout';
+import Lay from '../../../Say66_TestApp/app/(tabs)/_layout';
 
 // Import thumbs up and thumbs down images
 const thumbsUpImage =  ImagesAssets.like;  // Modify with your actual path
