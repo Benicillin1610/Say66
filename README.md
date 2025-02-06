@@ -19,3 +19,5 @@ npm i -D ts-node typescript
 npx expo install expo-av
 
 npx expo install expo-device
+
+npm i --save-dev @types/express
